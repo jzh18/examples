@@ -1,14 +1,15 @@
-from time import time # Track how long an epoch takes
-import os # Creating and finding files/directories
-import logging # Logging tools
-from datetime import date # Logging the date for model versioning
+import logging  # Logging tools
+import os  # Creating and finding files/directories
+from argparse import ArgumentParser  # For args
+from datetime import date  # Logging the date for model versioning
+from time import time  # Track how long an epoch takes
 
-import torch # For ML
-from tqdm import tqdm # For fancy progress bars
+import torch  # For ML
+from tqdm import tqdm  # For fancy progress bars
 
-from src.model import Translator # Our model
-from src.data import get_data, create_mask, generate_square_subsequent_mask # Loading data and data preprocessing
-from argparse import ArgumentParser # For args
+from src.data import create_mask  # Loading data and data preprocessing
+from src.data import generate_square_subsequent_mask, get_data
+from src.model import Translator  # Our model
 
 # Train on the GPU if possible
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -266,13 +267,13 @@ if __name__ == "__main__":
                         help="Target language (translating TO this language)")
 
     # Training settings 
-    parser.add_argument("-e", "--epochs", type=int, default=30,
+    parser.add_argument("-e", "--epochs", type=int, default=1,
                         help="Epochs")
     parser.add_argument("--lr", type=float, default=1e-4,
                         help="Default learning rate")
     parser.add_argument("--batch", type=int, default=128,
                         help="Batch size")
-    parser.add_argument("--backend", type=str, default="cpu",
+    parser.add_argument("--backend", type=str, default="gpu",
                         help="Batch size")
     
     # Transformer settings
